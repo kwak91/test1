@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
+	<meta name="format-detection" content="telephone=no" />
+	<title id="st_title">MANNA 더 간편한 매장관리, 만나 다</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/function.js"></script>
+	<link rel="stylesheet" href="/css/style.css" />
+	<script>
+		//////////////////////////////////////////////////////////////////////////////////////
+		//크로스 도메인 설정
+		//////////////////////////////////////////////////////////////////////////////////////
+		$(document).bind("mobileinit", function() {
+			$.support.cors = true;
+			$.mobile.allowCrossDomainPages = true;
+		});
+		//////////////////////////////////////////////////////////////////////////////////////
+		//로드시 실행
+		//////////////////////////////////////////////////////////////////////////////////////
+		$(document).ready(function() {
+			
+		});		
+		//////////////////////////////////////////////////////////////////////////////////////
+		//평가하기 별점 커스텀
+		//////////////////////////////////////////////////////////////////////////////////////
+		function STAR(Type,Num){
+			switch (Type){
+				case "WK" :
+					ElementId = "WK_STAR";
+					SubElementId = "WK_NUM"
+					break;
+				case "ST" :
+					ElementId = "ST_STAR";
+					SubElementId = "ST_NUM"
+					break;
+				default:
+					ElementId = "WK_STAR";
+					SubElementId = "WK_NUM"
+					break;
+			}// end switch		
+			var NowNum = Num;
+			var NextNum = Number(Num) + 1;
+			var NowStar = $("#" + ElementId + NowNum).attr("src");
+			var NextStar = $("#" + ElementId + NextNum).attr("src");
+			if (NowStar == "/images/star_on.png" && NextStar != "/images/star_on.png"){
+				Num = Num - 1;
+			}
+			//초기화	
+			for (var i=1; i <= 5; i++){
+				$("#" + ElementId + i).attr('src','/images/star_off.png');
+			}//end for
+			//이미지 변환처리
+			for ( var i=1; i <= Num; i++){
+					$("#" + ElementId + i).attr('src','/images/star_on.png');
+			}//end for
+			$("#" + SubElementId).val(Num);
+
+		}
+	
+		//////////////////////////////////////////////////////////////////////////////////////
+		//팝업 오픈
+		//////////////////////////////////////////////////////////////////////////////////////
+		function openPopup(bgcss, layerid){			
+			$("."+bgcss).fadeIn();
+			$("#"+layerid).show();
+			$("#"+layerid).css("left","10%");
+			$("#"+layerid).css("top","30%");
+			$("#"+layerid).css("width","80%");
+			$("#"+layerid).css("height","30%");
+			$('html, body').css({'overflow': 'hidden', 'height': '100%'}); //html,body의 scroll을 hidden시킴 
+			$('#element').on('scroll touchmove mousewheel', function(event) { // 터치무브와 마우스휠 스크롤 방지     				
+				event.preventDefault();     
+				event.stopPropagation();    	
+				return false;
+			});
+		}
+		//////////////////////////////////////////////////////////////////////////////////////
+		//팝업 닫기
+		//////////////////////////////////////////////////////////////////////////////////////
+		function closePopup(bgcss, layerid){
+			$("."+bgcss).fadeOut();
+			$('window').unbind('touchmove');
+		}
+	</script>
+</head>
+<body id="body">
+		
+<form id="AddForm" name="AddForm" >
+	<input type="hidden" id="ST_NUM" name="ST_NUM" value="0">
+	<input type="hidden" id="WK_NUM" name="WK_NUM" value="0">
+	<input type="hidden" id="ORD_NO" name="ORD_NO" value="<%=ORD_NO%>">
+	<input type="hidden" id="IN_REQ_NUM" name="IN_REQ_NUM">
+
+	<div class="wrap_box">
+		<div class="topbox">
+			<h1>주문에 대한 평가에 참여해주세요.</h1>
+			<div class="shop_info">
+				<img src="/images/img_noimg.png" id="store_img">
+				<span class="shop">만나 가맹점</span>
+				<span class="date">2018.01.01 18:23 주문</span>
+			</div>
+			<div class="bottombox">
+				<ul class="star">
+					<li>메뉴별점</li>
+					<span class="menustar">
+						<img src="/images/star_off.png" id="ST_STAR1" style="cursor:pointer;" onclick="STAR('ST','1');" >
+						<img src="/images/star_off.png" id="ST_STAR2" style="cursor:pointer;" onclick="STAR('ST','2');" >
+						<img src="/images/star_off.png" id="ST_STAR3" style="cursor:pointer;" onclick="STAR('ST','3');" >
+						<img src="/images/star_off.png" id="ST_STAR4" style="cursor:pointer;" onclick="STAR('ST','4');" >
+						<img src="/images/star_off.png" id="ST_STAR5" style="cursor:pointer;" onclick="STAR('ST','5');" >
+					</span>
+				</ul>					
+				<ul class="star">
+					<li>배송별점</li>
+					<span class="menustar">
+						<img src="/images/star_off.png" id="WK_STAR1" style="cursor:pointer;" onclick="STAR('WK','1');" >
+						<img src="/images/star_off.png" id="WK_STAR2" style="cursor:pointer;" onclick="STAR('WK','2');" >
+						<img src="/images/star_off.png" id="WK_STAR3" style="cursor:pointer;" onclick="STAR('WK','3');" >
+						<img src="/images/star_off.png" id="WK_STAR4" style="cursor:pointer;" onclick="STAR('WK','4');" >
+						<img src="/images/star_off.png" id="WK_STAR5" style="cursor:pointer;" onclick="STAR('WK','5');" >
+					</span>
+				</ul>
+				<div class="opinion">
+					<textarea class="textarea" id="GRADE_MEMO" name="GRADE_MEMO" placeholder="고객님의 소중한 평가글을 작성해주세요 (100자이내로작성)" maxlength="100"></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="survey_bottom">
+			<a style="cursor:pointer;" onclick="openPopup('dim-layer9', 'layer9');" >
+				<img src="images/bt_confirm.png">
+			</a>
+		</div>
+	</div>
+	
+	
+	<!--- 레이어팝업 (평가후) --->
+	<div class="dim-layer">
+		<div class="dimBg"></div>
+		<div id="layer2" class="pop-layer">
+			<div class="pop-container">
+				<div class="pop-conts">
+					<p class="ctxt" id="MESS_TXT">
+						메세지
+					</p>
+				</div>
+						<div class="dim-bottom">
+						<div class="dim-btn" id="pop_pay_btn" style="cursor:pointer;">
+							<a id="failHref">확인</a>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>		
+	
+	<!--- 레이어팝업 (평가전) --->
+
+	<div class="dim-layer9">
+		<div class="dimBg9"></div>
+		<div id="layer9" class="pop-layer9">
+			<div class="pop-container9">
+				<div class="pop-conts">
+					<p class="ctxt">
+						주문 평가를 하시겠습니까?
+					</p>
+					<div class="dim-bottom">
+						<div class="dim-btn01" id="pop_pay_btn" style="cursor:pointer;" onclick="GRADE('AddForm');">
+							예
+						</div>							
+						<div class="dim-btn02" id="pop_pay_btn" style="cursor:pointer;" onclick="closePopup('dim-layer9', 'layer9');">
+							아니오
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+</body>	
+</html>
