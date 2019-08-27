@@ -44,16 +44,16 @@
 			var NextNum = Number(Num) + 1;
 			var NowStar = $("#" + ElementId + NowNum).attr("src");
 			var NextStar = $("#" + ElementId + NextNum).attr("src");
-			if (NowStar == "/images/star_on.png" && NextStar != "/images/star_on.png"){
+			if (NowStar == "/images/star_on.png" && NextStar != "star_on.png"){
 				Num = Num - 1;
 			}
 			//초기화	
 			for (var i=1; i <= 5; i++){
-				$("#" + ElementId + i).attr('src','/images/star_off.png');
+				$("#" + ElementId + i).attr('src','star_off.png');
 			}//end for
 			//이미지 변환처리
 			for ( var i=1; i <= Num; i++){
-					$("#" + ElementId + i).attr('src','/images/star_on.png');
+					$("#" + ElementId + i).attr('src','star_on.png');
 			}//end for
 			$("#" + SubElementId).val(Num);
 
@@ -97,7 +97,7 @@
 		<div class="topbox">
 			<h1>주문에 대한 평가에 참여해주세요.</h1>
 			<div class="shop_info">
-				<img src="/images/img_noimg.png" id="store_img">
+				<img src="img_noimg.png" id="store_img">
 				<span class="shop">만나 가맹점</span>
 				<span class="date">2018.01.01 18:23 주문</span>
 			</div>
